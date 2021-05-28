@@ -1,0 +1,19 @@
+{
+    "name": "zero1/magento2-newin",
+    "version": "1.0.0",
+    "license": [
+        "GPL-3.0-or-later"
+    ],
+    "require": {
+        "magento/framework": ">=101 <104",
+        "smile/elasticsuite": "~2.10.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Zero1\\NewIn\\": ""
+        }
+    }
+}
