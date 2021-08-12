@@ -4,6 +4,8 @@ namespace Zero1\NewIn\Model\Rule\Condition\Product\SpecialAttribute;
 use Smile\ElasticsuiteCatalogRule\Api\Rule\Condition\Product\SpecialAttributeInterface;
 use Smile\ElasticsuiteCore\Search\Request\Query\QueryFactory;
 use Smile\ElasticsuiteCore\Search\Request\QueryInterface;
+use Smile\ElasticsuiteCatalogRule\Model\Rule\Condition\Product as ProductCondition;
+
 
 class IsNewIn implements SpecialAttributeInterface
 {
@@ -40,7 +42,7 @@ class IsNewIn implements SpecialAttributeInterface
     /**
      * {@inheritdoc}
      */
-    public function getSearchQuery()
+    public function getSearchQuery(ProductCondition $condition)
     {
         $query = $this->queryFactory->create(
             QueryInterface::TYPE_BOOL,
@@ -82,16 +84,18 @@ class IsNewIn implements SpecialAttributeInterface
 
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getValueName()
+    public function getValueName($value)
     {
         return ' ';
     }
 
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getValue()
+    public function getValue($value)
     {
         return true;
     }
@@ -109,6 +113,6 @@ class IsNewIn implements SpecialAttributeInterface
      */
     public function getLabel()
     {
-        return __('New In (news_to_date is in future)');
+        return __('New In (news_to_date is in the future)');
     }
 }
