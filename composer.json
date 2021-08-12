@@ -1,11 +1,11 @@
 {
     "name": "zero1/magento2-newin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": [
         "GPL-3.0-or-later"
     ],
     "require": {
-        "magento/framework": ">=101 <104",
+        "magento/framework": "~103.0.0",
         "smile/elasticsuite": "~2.10.0"
     },
     "autoload": {
