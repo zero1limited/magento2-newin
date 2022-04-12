@@ -2,9 +2,8 @@
 namespace Zero1\NewIn\Model\Cron;
 
 use \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use \Magento\CatalogInventory\Model\Stock\StockItemRepository;
+use \Magento\CatalogInventory\Api\StockRegistryInterface;
 use \Magento\Catalog\Model\Product\Attribute\Source\Status;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 class SetDates
 {
@@ -14,9 +13,9 @@ class SetDates
     protected $productCollectionFactory;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\StockItemRepository
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemRepository;
+    protected $stockRegistryInterface;
 
     /**
      * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
@@ -24,10 +23,10 @@ class SetDates
      */
     public function __construct(
         CollectionFactory $productCollectionFactory,
-        StockItemRepository $stockItemRepository
+        StockRegistryInterface $stockRegistryInterface
     ){
         $this->productCollectionFactory = $productCollectionFactory;
-        $this->stockItemRepository = $stockItemRepository;
+        $this->stockRegistryInterface = $stockRegistryInterface;
     }
 
     public function execute()
@@ -41,12 +40,11 @@ class SetDates
             }
 
             try {
-                $stockItem = $this->stockItemRepository->get($product->getId());
-            } catch(NoSuchEntityException $e) {
-                continue;
-            }
-
-            if(!$stockItem->getIsInStock()) {
+                $stockItem = $this->stockRegistryInterface->getStockItem($product->getId());
+                if(!$stockItem->getIsInStock()) {
+                    continue;
+                }
+            } catch(\Exception $e) {
                 continue;
             }
 
@@ -55,8 +53,12 @@ class SetDates
                 $interval = new \DateInterval('P30D');
                 $date->add($interval); // + 30 days
 
-                $product->setNewsToDate($date->format('Y-m-d H:i:s'));
-                $product->save();
+                try {
+                    $product->setNewsToDate($date->format('Y-m-d H:i:s'));
+                    $product->save();
+                } catch(\Exception $e) {
+                    continue;
+                }
             }
         }
     }
