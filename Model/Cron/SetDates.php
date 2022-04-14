@@ -34,6 +34,12 @@ class SetDates
         $productCollection = $this->productCollectionFactory->create();
         $productCollection->addAttributeToSelect('*');
 
+        $date = new \DateTime();
+        $interval = new \DateInterval('P30D');
+        $date->sub($interval); // - 30 days
+
+        $productCollection->addFieldToFilter('created_at', array('from' => $date->format('Y-m-d H:i:s')));
+
         foreach($productCollection as $product) {
             if($product->getStatus() != Status::STATUS_ENABLED) {
                 continue;
