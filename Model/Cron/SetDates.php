@@ -56,7 +56,7 @@ class SetDates
 
             if($product->getNewsToDate() === null) {
                 $date = new \DateTime();
-                $interval = new \DateInterval('P30D');
+                $interval = new \DateInterval('P90D');
                 $date->add($interval); // + 30 days
 
                 try {
