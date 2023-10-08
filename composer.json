@@ -6,7 +6,7 @@
     ],
     "require": {
         "magento/framework": "~103.0.0",
-        "smile/elasticsuite": "~2.10.0"
+        "smile/elasticsuite": "~2.11.0"
     },
     "autoload": {
         "files": [
